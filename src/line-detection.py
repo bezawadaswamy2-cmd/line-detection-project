@@ -1,4 +1,25 @@
 import cv2 
+import numpy as np
+
+def region_of_interest(image):
+
+    height = image.shape[0]
+    width = image.shape[1]
+
+    # Define triangle
+    polygons = np.array([
+        [(0, height),
+         (width, height),
+         (width // 2, height // 2)]
+    ])
+
+    mask = np.zeros_like(image)
+
+    cv2.fillPoly(mask, polygons, 255)
+
+    masked_image = cv2.bitwise_and(image, mask)
+
+    return masked_image
 
 # Path to the video
 video_path = r"/Users/sribalaayyappaswamybezawada/Visual Studio Code/line-detection-project/data/road_video.mp4"
@@ -28,9 +49,13 @@ while True:
 
     # Canny edge detection
     edge = cv2.Canny(blur, 50, 150)
+    
+    # ROI
+    roi = region_of_interest(edge)
 
     # Display the frame
-    cv2.imshow("Road-blur-Video", edge)
+    cv2.imshow("Road-Video", roi)
+
     # Press 'q' to exit
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
