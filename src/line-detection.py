@@ -53,8 +53,27 @@ while True:
     # ROI
     roi = region_of_interest(edge)
 
+    # Draw line
+    lines = cv2.HoughLinesP(
+        roi,
+        2,
+        np.pi/180,
+        100,
+        np.array([]),
+        minLineLength = 40,
+        maxLineGap = 5
+    )
+
+    line_image = np.zeros_like(frame)
+
+    if lines is not None:
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            cv2.line(line_image, (x1,y1), (x2,y2), (255,0,0), 5)
+
+    combo = cv2.addWeighted(frame, 0.8, line_image, 1, 1)
     # Display the frame
-    cv2.imshow("Road-Video", roi)
+    cv2.imshow("Line Detection", combo)
 
     # Press 'q' to exit
     if cv2.waitKey(1) & 0xFF == ord('q'):
