@@ -20,9 +20,14 @@ while True:
     if not ret:
         break
 
-    # Display the frame
-    cv2.imshow("Road Video", frame)
+    # Convert the frames into grayscale
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+    # Apply gaussian blur
+    blur = cv2.GaussianBlur(gray, (5,5), 0)
+
+    # Display the frame
+    cv2.imshow("Road-blur-Video", blur)
     # Press 'q' to exit
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
