@@ -26,8 +26,11 @@ while True:
     # Apply gaussian blur
     blur = cv2.GaussianBlur(gray, (5,5), 0)
 
+    # Canny edge detection
+    edge = cv2.Canny(blur, 50, 150)
+
     # Display the frame
-    cv2.imshow("Road-blur-Video", blur)
+    cv2.imshow("Road-blur-Video", edge)
     # Press 'q' to exit
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
